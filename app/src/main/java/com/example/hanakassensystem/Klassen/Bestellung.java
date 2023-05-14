@@ -8,8 +8,8 @@ public class Bestellung {
     private double produktPreis;
     private int anzahlProdukt;
     private int mitarbeiterID;
-    private boolean empty;
 
+    private boolean empty;
     public Bestellung(int b_produktID, int tischID, String produktName, double produktPreis, int anzahlProdukt, int mitarbeiterID, boolean empty) {
         this.b_produktID = b_produktID;
         this.tischID = tischID;

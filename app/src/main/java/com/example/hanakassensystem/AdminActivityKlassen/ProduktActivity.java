@@ -37,15 +37,14 @@ public class ProduktActivity extends AppCompatActivity {
 
     Button btnExitProdukt;
 
-    TextView textview;
+    // --Commented out by Inspection (14.05.2023 23:38):TextView textview;
     Dialog dialog;
     Integer id = null;
     int lvID;
 
-    private int katID;
+    // --Commented out by I// --Commented out by Inspection (14.05.2023 23:38):nspection (14.05.2023 23:38):private int katID;
     private int prodID;
     database database;
-    private ProduktAdapter produktAdapter;
     Button bt2Kategorie, btn2Personal, btn2Statistik;
 
     @SuppressLint("MissingInflatedId")
@@ -67,41 +66,29 @@ public class ProduktActivity extends AppCompatActivity {
         btn2Personal = findViewById(R.id.btnProdukt2Personal);
         btn2Statistik = findViewById(R.id.btnProdukt2Statistik);
 
-        bt2Kategorie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProduktActivity.this, KategoryActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        bt2Kategorie.setOnClickListener(view -> {
+            Intent intent = new Intent(ProduktActivity.this, KategoryActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btn2Personal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProduktActivity.this, PersonalActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btn2Personal.setOnClickListener(view -> {
+            Intent intent = new Intent(ProduktActivity.this, PersonalActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btn2Statistik.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProduktActivity.this, StatistkActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btn2Statistik.setOnClickListener(view -> {
+            Intent intent = new Intent(ProduktActivity.this, StatistkActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btnExitProdukt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProduktActivity.this, LogInActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btnExitProdukt.setOnClickListener(view -> {
+            Intent intent = new Intent(ProduktActivity.this, LogInActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -117,99 +104,81 @@ public class ProduktActivity extends AppCompatActivity {
             stringList.add(katList.get(i).getKategorieTitel());
             intListID.add(katList.get(i).getKategorieID());
         }
-        textview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog = new Dialog(ProduktActivity.this);
-                dialog.setContentView(R.layout.dialog_searchable_spinner);
-                dialog.getWindow().setLayout(650, 800);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-                EditText editText = dialog.findViewById(R.id.edit_text);
-                ListView listView = dialog.findViewById(R.id.list_view);
+        textview.setOnClickListener(v -> {
+            dialog = new Dialog(ProduktActivity.this);
+            dialog.setContentView(R.layout.dialog_searchable_spinner);
+            dialog.getWindow().setLayout(650, 800);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            EditText editText = dialog.findViewById(R.id.edit_text);
+            ListView listView = dialog.findViewById(R.id.list_view);
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(ProduktActivity.this, android.R.layout.simple_list_item_1, stringList);
-                listView.setAdapter(adapter);
-                editText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(ProduktActivity.this, android.R.layout.simple_list_item_1, stringList);
+            listView.setAdapter(adapter);
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        adapter.getFilter().filter(s);
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                });
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long ids) {
-                        id = intListID.get(position);
-                        sqlSelect(id);
-                        textview.setText(adapter.getItem(position));
-                        dialog.dismiss();
-                    }
-                });
-
-            }
-        });
-        lvProdukt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                lvID = proList.get(i).getProduktID();
-                produktName.setText(proList.get(i).getProduktName());
-                produktPreis.setText(String.valueOf(proList.get(i).getProduktPreis()));
-            }
-        });
-        btnDeleteProfuktFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (produktName.getText().toString().trim().length() > 0 && produktPreis.getText().toString().trim().length() > 0) {
-                    database.deleteProdukt(lvID);
-                    Toast.makeText(ProduktActivity.this, "Delete OK!", Toast.LENGTH_SHORT).show();
-                    setNull();
-                    sqlSelect(id);
-                } else {
-                    Toast.makeText(ProduktActivity.this, "Zgidhe ni produkt me shly", Toast.LENGTH_SHORT).show();
                 }
 
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    adapter.getFilter().filter(s);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+            listView.setOnItemClickListener((parent, view, position, ids) -> {
+                id = intListID.get(position);
+                sqlSelect(id);
+                textview.setText(adapter.getItem(position));
+                dialog.dismiss();
+            });
+
+        });
+        lvProdukt.setOnItemClickListener((adapterView, view, i, l) -> {
+
+            lvID = proList.get(i).getProduktID();
+            produktName.setText(proList.get(i).getProduktName());
+            produktPreis.setText(String.valueOf(proList.get(i).getProduktPreis()));
+        });
+        btnDeleteProfuktFragment.setOnClickListener(view -> {
+            if (produktName.getText().toString().trim().length() > 0 && produktPreis.getText().toString().trim().length() > 0) {
+                database.deleteProdukt(lvID);
+                Toast.makeText(ProduktActivity.this, "Delete OK!", Toast.LENGTH_SHORT).show();
+                setNull();
+                sqlSelect(id);
+            } else {
+                Toast.makeText(ProduktActivity.this, "Zgidhe ni produkt me shly", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+        btnUpdateProfuktFragment.setOnClickListener(view -> {
+            if (produktName.getText().toString().trim().length() > 0 && produktPreis.getText().toString().trim().length() > 0) {
+                double preis = Double.parseDouble(produktPreis.getText().toString());
+                String name = produktName.getText().toString();
+                database.updateProdukt(name, preis, lvID);
+                Toast.makeText(ProduktActivity.this, "Save!", Toast.LENGTH_SHORT).show();
+                setNull();
+                sqlSelect(id);
+                //textview.setText("");
+            } else {
+                Toast.makeText(ProduktActivity.this, "Mos e le That", Toast.LENGTH_SHORT).show();
             }
         });
-        btnUpdateProfuktFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (produktName.getText().toString().trim().length() > 0 && produktPreis.getText().toString().trim().length() > 0) {
-                    double preis = Double.parseDouble(produktPreis.getText().toString());
-                    String name = produktName.getText().toString();
-                    database.updateProdukt(name, preis, lvID);
-                    Toast.makeText(ProduktActivity.this, "Save!", Toast.LENGTH_SHORT).show();
-                    setNull();
-                    sqlSelect(id);
-                    //textview.setText("");
-                } else {
-                    Toast.makeText(ProduktActivity.this, "Mos e le That", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        btnAddProfuktFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (produktName.getText().toString().trim().length() > 0 && produktPreis.getText().toString().trim().length() > 0 && id != null) {
-                    double preis = Double.parseDouble(produktPreis.getText().toString());
-                    String name = produktName.getText().toString();
-                    database.insertProdukt(name, preis, id);
-                    Toast.makeText(ProduktActivity.this, "Save!", Toast.LENGTH_SHORT).show();
-                    setNull();
-                    sqlSelect(id);
-                } else {
-                    Toast.makeText(ProduktActivity.this, "Mos e le That", Toast.LENGTH_SHORT).show();
-                }
+        btnAddProfuktFragment.setOnClickListener(view -> {
+            if (produktName.getText().toString().trim().length() > 0 && produktPreis.getText().toString().trim().length() > 0 && id != null) {
+                double preis = Double.parseDouble(produktPreis.getText().toString());
+                String name = produktName.getText().toString();
+                database.insertProdukt(name, preis, id);
+                Toast.makeText(ProduktActivity.this, "Save!", Toast.LENGTH_SHORT).show();
+                setNull();
+                sqlSelect(id);
+            } else {
+                Toast.makeText(ProduktActivity.this, "Mos e le That", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -219,8 +188,8 @@ public class ProduktActivity extends AppCompatActivity {
         String qry = "Select * from produkt where p_kategorieID =" + id;
         proList = database.getProdukt(qry);
         if (!proList.isEmpty()) {
-            produktAdapter = new ProduktAdapter(proList, this);
-            lvProdukt.setAdapter((ProduktAdapter) produktAdapter);
+            ProduktAdapter produktAdapter = new ProduktAdapter(proList, this);
+            lvProdukt.setAdapter(produktAdapter);
         }
     }
 

@@ -5,7 +5,7 @@ public class Produkt {
     private String produktName;
     private double produktPreis;
     private int p_kategorieID;
-    private boolean empty;
+    private final boolean empty;
 
     public Produkt(int produktID, String produktName, double produktPreis, int p_kategorieID, boolean empty) {
         this.produktID = produktID;
@@ -18,6 +18,7 @@ public class Produkt {
     public Produkt(boolean empty) {
         this.empty = empty;
     }
+
 
     public int getProduktID() {
         return produktID;

@@ -3,6 +3,7 @@ package com.example.hanakassensystem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,8 +20,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private ArrayList<Mitarbeiter>lstMitarbeiter;
     private EditText etMitarbeiterName, etMItarbeiterPasswort,etAdminName, etAdminPasswort;
-    private Button btnAdminLogin, btnMitarbeiterLogin;
-    int counter =0 ;
+    private int counter =0 ;
     private ConstraintLayout conAdmin, conMitarbeiter;
     private Integer mitarbeiterID = null;
     private database database;
@@ -34,8 +34,8 @@ public class LogInActivity extends AppCompatActivity {
         etMItarbeiterPasswort = findViewById(R.id.etPasswordPuntori);
         etAdminName = findViewById(R.id.etEmriAdmin);
         etAdminPasswort = findViewById(R.id.etAdminPasswort);
-        btnAdminLogin = findViewById(R.id.btnLogInAdmin);
-        btnMitarbeiterLogin = findViewById(R.id.btnLogInPuntori);
+        Button btnAdminLogin = findViewById(R.id.btnLogInAdmin);
+        Button btnMitarbeiterLogin = findViewById(R.id.btnLogInPuntori);
         conAdmin = findViewById(R.id.logInConAdmin);
         conMitarbeiter = findViewById(R.id.logInConPuntor);
         database = new database(this);
@@ -67,7 +67,7 @@ public class LogInActivity extends AppCompatActivity {
                         counter = 0;
                     }
                 }
-                if (passwortFalsch == true){
+                if (passwortFalsch){
                     counter ++;
                     Toast.makeText(LogInActivity.this, "datat Gabimischt "+counter, Toast.LENGTH_SHORT).show();
                     etMitarbeiterName.setText("");
@@ -80,41 +80,32 @@ public class LogInActivity extends AppCompatActivity {
 
         String name = lstMitarbeiter.get(0).getMitarbeiterName();
         String passwort = lstMitarbeiter.get(0).getMitarbeiterPasswort();
-        btnAdminLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnAdminLogin.setOnClickListener(view -> {
 
-                if((name.equals(etAdminName.getText().toString()))&&(passwort.equals(etAdminPasswort.getText().toString()))){
-                    Intent intent1 = new Intent(LogInActivity.this, PersonalActivity.class);
-                    intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent1);
-                }else{
-                    counter ++;
-                    Toast.makeText(LogInActivity.this, "Gabimischt "+counter, Toast.LENGTH_SHORT).show();
+            if((name.equals(etAdminName.getText().toString()))&&(passwort.equals(etAdminPasswort.getText().toString()))){
+                Intent intent1 = new Intent(LogInActivity.this, PersonalActivity.class);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent1);
+            }else{
+                counter ++;
+                Toast.makeText(LogInActivity.this, "Gabimischt "+counter, Toast.LENGTH_SHORT).show();
 
-
-                }
 
             }
+
         });
 
-        btnMitarbeiterLogin.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
+        btnMitarbeiterLogin.setOnLongClickListener(view -> {
 
-                conAdmin.setVisibility(View.VISIBLE);
-                conMitarbeiter.setVisibility(View.GONE);
-                return true;
-            }
+            conAdmin.setVisibility(View.VISIBLE);
+            conMitarbeiter.setVisibility(View.GONE);
+            return true;
         });
 
-        btnAdminLogin.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                conAdmin.setVisibility(View.GONE);
-                conMitarbeiter.setVisibility(View.VISIBLE);
-                return true;
-            }
+        btnAdminLogin.setOnLongClickListener(view -> {
+            conAdmin.setVisibility(View.GONE);
+            conMitarbeiter.setVisibility(View.VISIBLE);
+            return true;
         });
     }
 }

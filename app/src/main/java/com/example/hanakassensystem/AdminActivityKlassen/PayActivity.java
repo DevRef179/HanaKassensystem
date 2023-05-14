@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hanakassensystem.Adaptern.BestellungsAdapter;
-import com.example.hanakassensystem.Adaptern.TischAdapter;
 import com.example.hanakassensystem.Klassen.Bestellung;
 import com.example.hanakassensystem.Klassen.Tisch;
 import com.example.hanakassensystem.MainActivity;
@@ -23,32 +22,26 @@ import java.util.ArrayList;
 public class PayActivity extends AppCompatActivity {
 
     private ArrayList<Bestellung> lstBestellung = new ArrayList<>();
-    private TextView txtPayTischID, txtSumTotal;
     private ListView lvPay;
 
     private double preis;
     private double summPreis;
-    private double summ;
     private int anzahlProdukte;
 
-    private int produktID;
-    private int tischNr;
+    // --Commented out by Inspection (14.05.2023 23:38):private int produktID;
     private int tischID;
     private Integer mitarbeiterID = null;
-    private BestellungsAdapter bestellungsAdapter;
- private ArrayList<Tisch>tischList = new ArrayList<>();
     private database database;
-    private FloatingActionButton fabPay;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
-        txtPayTischID = findViewById(R.id.txtPagesaTischNr);
-        txtSumTotal = findViewById(R.id.txtPayTotal);
+        TextView txtPayTischID = findViewById(R.id.txtPagesaTischNr);
+        TextView txtSumTotal = findViewById(R.id.txtPayTotal);
         lvPay = findViewById(R.id.lvPagesa);
-        fabPay = findViewById(R.id.fabPay);
+        FloatingActionButton fabPay = findViewById(R.id.fabPay);
         database = new database(this);
 
 
@@ -57,15 +50,15 @@ public class PayActivity extends AppCompatActivity {
         tischID = intent.getIntExtra("tisch", 0);
         mitarbeiterID = intent.getIntExtra("mitarbeiterID", 0);
         String qry = "select * from Tisch where tischid =" + tischID;
-        tischList = database.getTisch(qry);
-        tischNr = tischList.get(0).getTischNummer();
+        ArrayList<Tisch> tischList = database.getTisch(qry);
+        int tischNr = tischList.get(0).getTischNummer();
         txtPayTischID.setText(String.valueOf(tischNr));
         refreshList();
 
         for (int i = 0; i< lstBestellung.size(); i++){
             preis = lstBestellung.get(i).getProduktPreis();
             anzahlProdukte = lstBestellung.get(i).getAnzahlProdukt();
-            summ = preis * anzahlProdukte;
+            double summ = preis * anzahlProdukte;
             summPreis += summ;
         }
 
@@ -73,18 +66,15 @@ public class PayActivity extends AppCompatActivity {
 
 
 
-        fabPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                database.updateTischTisch(0,tischID);
+        fabPay.setOnClickListener(view -> {
+            database.updateTischTisch(0,tischID);
 
-                Intent intent = new Intent(PayActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                intent.putExtra("mitarbeiterID", mitarbeiterID);
-                startActivity(intent);
-                arraList2SQL();
-                database.deleteBestellung(tischID);
-            }
+            Intent intent1 = new Intent(PayActivity.this, MainActivity.class);
+            intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent1.putExtra("mitarbeiterID", mitarbeiterID);
+            startActivity(intent1);
+            arraList2SQL();
+            database.deleteBestellung(tischID);
         });
 
 
@@ -94,8 +84,8 @@ public class PayActivity extends AppCompatActivity {
         String qry = "select  b_produktID, b_tischID, b_produktName, b_produktPreis,  sum(anzahl) , b_mitarbeiterID from Bestellung where b_tischID = "+tischID+ "   group by b_produktID";
         lstBestellung = database.getBestellung(qry);
         if (!lstBestellung.isEmpty()){
-            bestellungsAdapter = new BestellungsAdapter(lstBestellung, this);
-            lvPay.setAdapter((BestellungsAdapter) bestellungsAdapter);
+            BestellungsAdapter bestellungsAdapter = new BestellungsAdapter(lstBestellung, this);
+            lvPay.setAdapter(bestellungsAdapter);
         }
     }
 

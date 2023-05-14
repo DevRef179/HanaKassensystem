@@ -21,15 +21,11 @@ import com.example.hanakassensystem.database;
 import java.util.ArrayList;
 
 public class KategoryActivity extends AppCompatActivity {
-
-    private Button btnKategorieAdd, btnKategorieDelete, btnKategorieLoad, btnKategorieUpdate, btnExitKategorie,
-    bt2Personal,btn2Produkt,btn2Statistik;
     private ListView lvKategorie;
     private EditText etKategorie;
 
     private database database;
     private ArrayList<Kategorie> lstKategorie;
-    private KategorieAdapter kategorieAdapter;
     private int id;
 
     @SuppressLint("MissingInflatedId")
@@ -37,96 +33,72 @@ public class KategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kategory);
-        btnKategorieUpdate = findViewById(R.id.btnUpdateKategorie);
-        btnKategorieAdd = findViewById(R.id.btnAddKategorie);
-        btnKategorieDelete = findViewById(R.id.btnDeleteKategorie);
+        Button btnKategorieUpdate = findViewById(R.id.btnUpdateKategorie);
+        Button btnKategorieAdd = findViewById(R.id.btnAddKategorie);
+        Button btnKategorieDelete = findViewById(R.id.btnDeleteKategorie);
         lvKategorie = findViewById(R.id.lstKategorie);
         etKategorie = findViewById(R.id.etKategorie);
         database = new database(this);
         etKategorie.setText("");
-        btnExitKategorie = findViewById(R.id.btnExitKategory);
+        Button btnExitKategorie = findViewById(R.id.btnExitKategory);
 
-        btn2Produkt = findViewById(R.id.btnKategorie2Produkt);
-        btn2Statistik = findViewById(R.id.btnKategorie2Statistik);
-        bt2Personal = findViewById(R.id.btnKategorie2Personal);
-        btn2Produkt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(KategoryActivity.this, ProduktActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        Button btn2Produkt = findViewById(R.id.btnKategorie2Produkt);
+        Button btn2Statistik = findViewById(R.id.btnKategorie2Statistik);
+        Button bt2Personal = findViewById(R.id.btnKategorie2Personal);
+        btn2Produkt.setOnClickListener(view -> {
+            Intent intent = new Intent(KategoryActivity.this, ProduktActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btn2Statistik.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(KategoryActivity.this, StatistkActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btn2Statistik.setOnClickListener(view -> {
+            Intent intent = new Intent(KategoryActivity.this, StatistkActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
 
-        bt2Personal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(KategoryActivity.this, PersonalActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        bt2Personal.setOnClickListener(view -> {
+            Intent intent = new Intent(KategoryActivity.this, PersonalActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
 
-        btnExitKategorie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(KategoryActivity.this, LogInActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btnExitKategorie.setOnClickListener(view -> {
+            Intent intent = new Intent(KategoryActivity.this, LogInActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
         refreshList();
 
 
-        btnKategorieAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!etKategorie.getText().toString().equals("")) {
-                    database.insertKategorie(etKategorie.getText().toString());
-                    Toast.makeText(KategoryActivity.this, "e fute ni kategorie", Toast.LENGTH_SHORT).show();
-                    refreshList();
-                    setNull();
-                } else {
-                    Toast.makeText(KategoryActivity.this, "Mos e le that", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        btnKategorieDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                database.deleteKategorie(id);
+        btnKategorieAdd.setOnClickListener(view -> {
+            if (!etKategorie.getText().toString().equals("")) {
+                database.insertKategorie(etKategorie.getText().toString());
+                Toast.makeText(KategoryActivity.this, "e fute ni kategorie", Toast.LENGTH_SHORT).show();
                 refreshList();
                 setNull();
+            } else {
+                Toast.makeText(KategoryActivity.this, "Mos e le that", Toast.LENGTH_SHORT).show();
             }
         });
-        btnKategorieUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                database.updateKategorie(etKategorie.getText().toString(), id);
-                refreshList();
-                setNull();
-            }
+        btnKategorieDelete.setOnClickListener(view -> {
+            database.deleteKategorie(id);
+            refreshList();
+            setNull();
+        });
+        btnKategorieUpdate.setOnClickListener(view -> {
+            database.updateKategorie(etKategorie.getText().toString(), id);
+            refreshList();
+            setNull();
         });
 
-        lvKategorie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                id = lstKategorie.get(i).getKategorieID();
-                //Toast.makeText(getActivity(), "Test " +lstMitarbeiterArray.get(i).getMitarbeiterName(), Toast.LENGTH_SHORT).show();
-                etKategorie.setText(lstKategorie.get(i).getKategorieTitel());
-            }
+        lvKategorie.setOnItemClickListener((adapterView, view, i, l) -> {
+            id = lstKategorie.get(i).getKategorieID();
+            //Toast.makeText(getActivity(), "Test " +lstMitarbeiterArray.get(i).getMitarbeiterName(), Toast.LENGTH_SHORT).show();
+            etKategorie.setText(lstKategorie.get(i).getKategorieTitel());
         });
 
     }
@@ -134,8 +106,8 @@ public class KategoryActivity extends AppCompatActivity {
     public void refreshList() {
         String qry = "select * from kategorie";
         lstKategorie = database.getKategorie(qry);
-        kategorieAdapter = new KategorieAdapter(lstKategorie, this);
-        lvKategorie.setAdapter((KategorieAdapter) kategorieAdapter);
+        KategorieAdapter kategorieAdapter = new KategorieAdapter(lstKategorie, this);
+        lvKategorie.setAdapter(kategorieAdapter);
 
     }
 

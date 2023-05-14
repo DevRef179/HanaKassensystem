@@ -18,12 +18,13 @@ import java.util.ArrayList;
 
 public class TischAdapter extends BaseAdapter {
 
-    private ArrayList<Tisch> lstTische;
+    private final ArrayList<Tisch> lstTische;
     private ArrayList<Tisch> lstTische2;
-    private Context context;
-    private ConstraintLayout con;
 
-    private int position;
+ private final Context context;
+private ConstraintLayout con;
+   private int position;
+
     private database database;
     private int bool;
 
@@ -60,8 +61,8 @@ public class TischAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.tavolincard, null, true);
 
-            holder.txtTavolinNr = (TextView) view.findViewById(R.id.txtTavolinaNr);
-            holder.con = (ConstraintLayout) view.findViewById(R.id.conTavolin);
+            holder.txtTavolinNr = view.findViewById(R.id.txtTavolinaNr);
+            holder.con = view.findViewById(R.id.conTavolin);
             view.setTag(holder);
 
         } else {
@@ -74,7 +75,7 @@ public class TischAdapter extends BaseAdapter {
         return view;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         protected ConstraintLayout con;
         protected TextView
                 txtTavolinNr;

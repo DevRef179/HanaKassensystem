@@ -17,10 +17,8 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class StatistkActivity extends AppCompatActivity {
 
@@ -55,41 +53,29 @@ public class StatistkActivity extends AppCompatActivity {
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(true);
 
-        btn2Kategorie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StatistkActivity.this, KategoryActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btn2Kategorie.setOnClickListener(view -> {
+            Intent intent = new Intent(StatistkActivity.this, KategoryActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btn2Personal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StatistkActivity.this, PersonalActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btn2Personal.setOnClickListener(view -> {
+            Intent intent = new Intent(StatistkActivity.this, PersonalActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btn2Produkt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StatistkActivity.this, ProduktActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btn2Produkt.setOnClickListener(view -> {
+            Intent intent = new Intent(StatistkActivity.this, ProduktActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btnExitStatisitk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StatistkActivity.this, LogInActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btnExitStatisitk.setOnClickListener(view -> {
+            Intent intent = new Intent(StatistkActivity.this, LogInActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
     }
 

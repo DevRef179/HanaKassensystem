@@ -4,7 +4,7 @@ public class Mitarbeiter {
     private int mitarbeiterID;
     private String mitarbeiterName;
     private String mitarbeiterPasswort;
-    private boolean empty;
+    private final boolean empty;
 
 
 

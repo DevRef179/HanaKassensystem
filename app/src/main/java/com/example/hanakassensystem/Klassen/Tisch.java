@@ -5,18 +5,7 @@ public class Tisch {
     private int tischID;
     private int tischNummer;
     private int boolTischBesetztAsInt;
-    private boolean empty;
-
-    public Tisch(int tischID, int tischNummer, int boolTischBesetztAsInt, boolean empty) {
-        this.tischID = tischID;
-        this.tischNummer = tischNummer;
-        this.boolTischBesetztAsInt = boolTischBesetztAsInt;
-        this.empty = empty;
-    }
-
-    public Tisch(boolean empty) {
-        this.empty = empty;
-    }
+    private final boolean empty;
 
     public int getTischID() {
         return tischID;
@@ -41,4 +30,16 @@ public class Tisch {
     public void setBoolTischBesetztAsInt(int boolTischBesetztAsInt) {
         this.boolTischBesetztAsInt = boolTischBesetztAsInt;
     }
+
+    public Tisch(int tischID, int tischNummer, int boolTischBesetztAsInt, boolean empty) {
+        this.tischID = tischID;
+        this.tischNummer = tischNummer;
+        this.boolTischBesetztAsInt = boolTischBesetztAsInt;
+        this.empty = empty;
+    }
+
+    public Tisch(boolean empty) {
+        this.empty = empty;
+    }
+
 }

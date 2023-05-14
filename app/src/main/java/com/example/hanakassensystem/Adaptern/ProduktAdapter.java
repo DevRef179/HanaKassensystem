@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class ProduktAdapter extends BaseAdapter {
 
 
-    private ArrayList<Produkt> lstProdukte;
-    private Context context;
+    private final ArrayList<Produkt> lstProdukte;
+    private final Context context;
 
     public ProduktAdapter(ArrayList<Produkt> lstProdukte, Context context) {
         this.lstProdukte = lstProdukte;
@@ -49,8 +49,8 @@ public class ProduktAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.produktcard, null, true);
 
-            holder.txtProduktName = (TextView) view.findViewById(R.id.txtProduktNameFragment);
-            holder.txtProduktPreis = (TextView) view.findViewById(R.id.txtProduktAnzahlFragment);
+            holder.txtProduktName = view.findViewById(R.id.txtProduktNameFragment);
+            holder.txtProduktPreis = view.findViewById(R.id.txtProduktAnzahlFragment);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -59,7 +59,7 @@ public class ProduktAdapter extends BaseAdapter {
         holder.txtProduktPreis.setText(String.valueOf(lstProdukte.get(i).getProduktPreis()));
         return view;
     }
-    private class ViewHolder {
+    private static class ViewHolder {
         protected TextView
                 txtProduktName,
                 txtProduktPreis;

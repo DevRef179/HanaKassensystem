@@ -50,29 +50,25 @@ public class WelcomeActivity extends AppCompatActivity {
 
             alert.setView(layout);
 
-            alert.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    String name = adminName.getText().toString();
-                    String passwort = adminPasswort.getText().toString();
-                    if (!adminName.getText().toString().equals("") && !adminPasswort.getText().toString().equals("")){
-                        db.insertMitarbeiter(name, passwort);
-                        Toast.makeText(WelcomeActivity.this, "Regjistrimi OK", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(WelcomeActivity.this, LogInActivity.class);
-                        finish();
-                        startActivity(intent);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    }else{
-                        Toast.makeText(WelcomeActivity.this, "Sbon me kan That", Toast.LENGTH_SHORT).show();
-                    }
-
-
+            alert.setPositiveButton("Save", (dialog, whichButton) -> {
+                String name = adminName.getText().toString();
+                String passwort = adminPasswort.getText().toString();
+                if (!adminName.getText().toString().equals("") && !adminPasswort.getText().toString().equals("")){
+                    db.insertMitarbeiter(name, passwort);
+                    Toast.makeText(WelcomeActivity.this, "Regjistrimi OK", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(WelcomeActivity.this, LogInActivity.class);
+                    finish();
+                    startActivity(intent);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                }else{
+                    Toast.makeText(WelcomeActivity.this, "Sbon me kan That", Toast.LENGTH_SHORT).show();
                 }
+
+
             });
 
-            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    // what ever you want to do with No option.
-                }
+            alert.setNegativeButton("Cancel", (dialog, whichButton) -> {
+                // what ever you want to do with No option.
             });
 
             alert.show();
@@ -80,16 +76,13 @@ public class WelcomeActivity extends AppCompatActivity {
         else {
 
             Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(WelcomeActivity.this, LogInActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    finish();
-                    startActivity(intent);
+            handler.postDelayed(() -> {
+                Intent intent = new Intent(WelcomeActivity.this, LogInActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                startActivity(intent);
 
 
-                }
             }, 2000);
         }
     }

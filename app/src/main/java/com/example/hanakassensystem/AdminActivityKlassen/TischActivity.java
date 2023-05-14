@@ -1,6 +1,5 @@
 package com.example.hanakassensystem.AdminActivityKlassen;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,71 +24,53 @@ public class TischActivity extends AppCompatActivity {
 
     private database database;
     private ArrayList<Tisch> lstTisache;
-    private TischAdapter tischAdapter;
     private int id;
-
-    private Button btnAddTisch, btnDeletTisch, btnUpdateTisch, btnKthehu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tisch);
-        btnAddTisch = findViewById(R.id.btnAddTavolina);
-        btnDeletTisch = findViewById(R.id.btnDeleteTavolinen);
-        btnUpdateTisch = findViewById(R.id.btnUpdatTavolin);
-        btnKthehu = findViewById(R.id.btnBack2AdminTischActivity);
+        Button btnAddTisch = findViewById(R.id.btnAddTavolina);
+        Button btnDeletTisch = findViewById(R.id.btnDeleteTavolinen);
+        Button btnUpdateTisch = findViewById(R.id.btnUpdatTavolin);
+        Button btnKthehu = findViewById(R.id.btnBack2AdminTischActivity);
         lvTische = findViewById(R.id.lstTavolinatTischActivity);
         etTischNummer = findViewById(R.id.etTischNu);
         database = new database(this);
         refreshList();
 
 
-        btnKthehu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TischActivity.this, PersonalActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btnKthehu.setOnClickListener(view -> {
+            Intent intent = new Intent(TischActivity.this, PersonalActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btnAddTisch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!etTischNummer.getText().toString().equals("")) {
-                    database.insertTisch(Integer.valueOf(etTischNummer.getText().toString()));
-                    Toast.makeText(TischActivity.this, "e futja ni Numer Tavolinew", Toast.LENGTH_SHORT).show();
-                    refreshList();
-                    setNull();
-                } else {
-                    Toast.makeText(TischActivity.this, "Mos e le that", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        btnDeletTisch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                database.deleteTisch(id);
+        btnAddTisch.setOnClickListener(view -> {
+            if (!etTischNummer.getText().toString().equals("")) {
+                database.insertTisch(Integer.valueOf(etTischNummer.getText().toString()));
+                Toast.makeText(TischActivity.this, "e futja ni Numer Tavolinew", Toast.LENGTH_SHORT).show();
                 refreshList();
                 setNull();
+            } else {
+                Toast.makeText(TischActivity.this, "Mos e le that", Toast.LENGTH_SHORT).show();
             }
         });
-        btnUpdateTisch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                database.updateTisch(Integer.valueOf(etTischNummer.getText().toString()), id);
-                refreshList();
-                setNull();
-            }
+        btnDeletTisch.setOnClickListener(view -> {
+            database.deleteTisch(id);
+            refreshList();
+            setNull();
         });
-        lvTische.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                id = lstTisache.get(i).getTischID();
-                int tischnr = lstTisache.get(i).getTischNummer();
-                Toast.makeText(TischActivity.this, "Test "+tischnr, Toast.LENGTH_SHORT).show();
-                etTischNummer.setText(String.valueOf(tischnr));
-            }
+        btnUpdateTisch.setOnClickListener(view -> {
+            database.updateTisch(Integer.valueOf(etTischNummer.getText().toString()), id);
+            refreshList();
+            setNull();
+        });
+        lvTische.setOnItemClickListener((adapterView, view, i, l) -> {
+            id = lstTisache.get(i).getTischID();
+            int tischnr = lstTisache.get(i).getTischNummer();
+            Toast.makeText(TischActivity.this, "Test "+tischnr, Toast.LENGTH_SHORT).show();
+            etTischNummer.setText(String.valueOf(tischnr));
         });
 
     }
@@ -97,8 +78,8 @@ public class TischActivity extends AppCompatActivity {
         String qry = "select * from tisch";
         lstTisache = database.getTisch(qry);
         if (!lstTisache.isEmpty()){
-            tischAdapter = new TischAdapter(lstTisache, this);
-            lvTische.setAdapter((TischAdapter) tischAdapter);
+            TischAdapter tischAdapter = new TischAdapter(lstTisache, this);
+            lvTische.setAdapter(tischAdapter);
         }
     }
 

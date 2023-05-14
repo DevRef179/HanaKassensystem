@@ -43,12 +43,6 @@ public class database extends SQLiteOpenHelper {
         //updateSql(db);
     }
 
-    //////////////////////////////////////////////////////////////
-    //////               Komplett Update                   ///////
-    private void updateSql(SQLiteDatabase db) {
-
-    }
-
     //////////////////////   AUSLESEN   ///////
     ///  Read Tisch
     public ArrayList<Tisch> getTisch(String qry) {
@@ -104,9 +98,9 @@ public class database extends SQLiteOpenHelper {
             if (cs.getCount() > -1) {
                 cs.moveToFirst();
                 while (!cs.isAfterLast()) {
-                    int kazegorieID = cs.getInt(0);
+                    int kategorieID = cs.getInt(0);
                     String kategorieTitel = cs.getString(1);
-                    kategorie.add(new Kategorie(kazegorieID, kategorieTitel, true));
+                    kategorie.add(new Kategorie(kategorieID, kategorieTitel, true));
                     cs.moveToNext();
                 }
                 cs.close();
@@ -218,56 +212,51 @@ public class database extends SQLiteOpenHelper {
 
     //////////////  INPUT //////////////
     // Insert Tisch
-    public boolean insertTisch(int tischNummer) {
+    public void insertTisch(int tischNummer) {
         db = this.getWritableDatabase();
         cv = new ContentValues();
         cv.put("tischNr", tischNummer);
         result = db.insert("tisch", null, cv);
-        return result != -1;
     }
 
-    String empty = "empty";
+    final String empty = "empty";
 
-    public boolean insertArbeiterSchicht(int arbeiterID) {
+    public void insertArbeiterSchicht(int arbeiterID) {
         db = this.getWritableDatabase();
         cv = new ContentValues();
         cv.put("s_mitarbeiterID", arbeiterID);
         cv.put("schichtbeginn", getDateTime());
         cv.put("schichtende", empty);
         result = db.insert("schicht", null, cv);
-        return result != -1;
     }
 
-    public boolean insertMitarbeiter(String mitarbeiterName, String mitarbeiterPasswort) {
+    public void insertMitarbeiter(String mitarbeiterName, String mitarbeiterPasswort) {
         db = this.getWritableDatabase();
         cv = new ContentValues();
         cv.put("mitarbeiterName", mitarbeiterName);
         cv.put("mitarbeiterPasswort", mitarbeiterPasswort);
         result = db.insert("mitarbeiter", null, cv);
-        return result != -1;
     }
 
     // Insert Kategorie
-    public boolean insertKategorie(String kategorieTitel) {
+    public void insertKategorie(String kategorieTitel) {
         db = this.getWritableDatabase();
         cv = new ContentValues();
         cv.put("kategorieTitel", kategorieTitel);
         result = db.insert("kategorie", null, cv);
-        return result != -1;
     }
 
-    public boolean insertProdukt(String produktName, double produktPreis, int kategorieID) {
+    public void insertProdukt(String produktName, double produktPreis, int kategorieID) {
         db = this.getWritableDatabase();
         cv = new ContentValues();
         cv.put("produktName", produktName);
         cv.put("produktPreis", produktPreis);
         cv.put("p_kategorieID", kategorieID);
         result = db.insert("produkt", null, cv);
-        return result != -1;
     }
 
     // Insert Bestellung
-    public boolean insertBestellung(int produktID, int tischID, String produktName, double produktPreis, int Anzahl, int mitarbeiterID) {
+    public void insertBestellung(int produktID, int tischID, String produktName, double produktPreis, int Anzahl, int mitarbeiterID) {
         db = this.getWritableDatabase();
         cv = new ContentValues();
         cv.put("b_produktID", produktID);
@@ -277,12 +266,11 @@ public class database extends SQLiteOpenHelper {
         cv.put("anzahl", Anzahl);
         cv.put("b_mitarbeiterID", mitarbeiterID);
         result = db.insert("bestellung", null, cv);
-        return result != -1;
 
     }
 
     // Insert TotalSum
-    public boolean insertSumTotal(int produktID, int s_mitarbeiterID, double summe, double einzelPreis, int anzahl) {
+    public void insertSumTotal(int produktID, int s_mitarbeiterID, double summe, double einzelPreis, int anzahl) {
         db = this.getWritableDatabase();
         cv = new ContentValues();
         cv.put("s_produktID", produktID);
@@ -292,7 +280,6 @@ public class database extends SQLiteOpenHelper {
         cv.put("anzahl", anzahl);
         cv.put("created_at", getDateTime());
         result = db.insert("sumtotal", null, cv);
-        return result != -1;
     }
 
 
@@ -435,11 +422,6 @@ public class database extends SQLiteOpenHelper {
                 "anzahl Integer ," +
                 "created_at DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 "Foreign key (s_mitarbeiterID)References mitarbeiter(mitarbeiterID))");
-
-        /*
-              cv.put("summe", einzelPreis);
-        cv.put("summe", anzahl);
-         */
 
 
     }

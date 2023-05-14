@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".LogInActivity">
 
+
+
     <TextView
         android:layout_width="387dp"
         android:layout_height="84dp"

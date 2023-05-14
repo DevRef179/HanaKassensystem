@@ -8,7 +8,13 @@ public class SumTotal {
     private double s_einnzelpreis;
     private int s_Anzahl;
     private String created_at;
+
+    public SumTotal(boolean empty) {
+        this.empty = empty;
+    }
+
     private boolean empty;
+    // --Commented out by Inspection (14.05.2023 23:38):private final boolean empty;
 
     public SumTotal(int s_sumtotalID, int s_produktID, int s_mitarbeiterID, double s_summe, double s_einnzelpreis, int s_Anzahl, String created_at, boolean empty) {
         this.s_sumtotalID = s_sumtotalID;
@@ -18,10 +24,6 @@ public class SumTotal {
         this.s_einnzelpreis = s_einnzelpreis;
         this.s_Anzahl = s_Anzahl;
         this.created_at = created_at;
-        this.empty = empty;
-    }
-
-    public SumTotal(boolean empty) {
         this.empty = empty;
     }
 

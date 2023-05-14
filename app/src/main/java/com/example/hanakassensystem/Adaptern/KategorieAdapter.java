@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class KategorieAdapter extends BaseAdapter {
 
 
-    private ArrayList<Kategorie> lstKategorie;
-    private Context context;
+    private final ArrayList<Kategorie> lstKategorie;
+    private final Context context;
 
     public KategorieAdapter(ArrayList<Kategorie> lstTische, Context context) {
         this.lstKategorie = lstTische;
@@ -49,7 +49,7 @@ public class KategorieAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.kategoriecard, null, true);
 
-            holder.txtKategorie = (TextView) view.findViewById(R.id.txtKategoriEmrinFragment);
+            holder.txtKategorie = view.findViewById(R.id.txtKategoriEmrinFragment);
 
             view.setTag(holder);
         } else {
@@ -58,7 +58,7 @@ public class KategorieAdapter extends BaseAdapter {
         holder.txtKategorie.setText(String.valueOf(lstKategorie.get(i).getKategorieTitel()));
         return view;
     }
-    private class ViewHolder {
+    private static class ViewHolder {
         protected TextView
                 txtKategorie;
     }

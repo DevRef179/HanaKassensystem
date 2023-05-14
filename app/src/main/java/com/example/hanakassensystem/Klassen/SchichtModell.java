@@ -6,7 +6,7 @@ public class SchichtModell {
     private int  s_mitarbeiterID;
     private String schichtBeginn;
     private String schichtEnde;
-    private boolean empty;
+   private final boolean empty;
 
     public SchichtModell(int schichtID, int s_mitarbeiterID, String schichtBeginn, String schichtEnde, boolean empty) {
         this.schichtID = schichtID;

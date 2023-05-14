@@ -49,14 +49,14 @@ public class MitarbeiterAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.mitarbeitercard, null, true);
 
-            holder.txtMitarbeiterName = (TextView)view.findViewById(R.id.txtPuntoriEmrinFragment);
-            holder.txtMitarbeiterPasswoert = (TextView) view.findViewById(R.id.txtPuntoriPasswortFragment);
+            holder.txtMitarbeiterName = view.findViewById(R.id.txtPuntoriEmrinFragment);
+            holder.txtMitarbeiterPasswoert = view.findViewById(R.id.txtPuntoriPasswortFragment);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.txtMitarbeiterName.setText(String.valueOf("emrin: "+  lstMitarbeiter.get(i).getMitarbeiterName()));
-        holder.txtMitarbeiterPasswoert.setText(String.valueOf("psswd: "+lstMitarbeiter.get(i).getMitarbeiterPasswort()));
+        holder.txtMitarbeiterName.setText("emrin: " + lstMitarbeiter.get(i).getMitarbeiterName());
+        holder.txtMitarbeiterPasswoert.setText("psswd: " + lstMitarbeiter.get(i).getMitarbeiterPasswort());
 
         return view;
     }

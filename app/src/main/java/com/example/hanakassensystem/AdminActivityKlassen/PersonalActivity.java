@@ -24,12 +24,14 @@ import java.util.ArrayList;
 public class PersonalActivity extends AppCompatActivity {
 
     private EditText etEmriPuntoriFragment, etPasswortPuntoriFragment;
-    private Button btnAddPuntorFragment, btnUpdatePuntorFragment, btnDeletePuntorFragment, btnLoadPuntorFragment,btnExitPersonal;
+    private Button btnAddPuntorFragment;
+    private Button btnUpdatePuntorFragment;
+    private Button btnDeletePuntorFragment;
+    private Button btnLoadPuntorFragment;
     private database database;
 
-    private ConstraintLayout con;
+    // --Commented out by Inspection (14.05.2023 23:38):private ConstraintLayout con;
     private ArrayList<Mitarbeiter> lstMitarbeiterArray;
-    private MitarbeiterAdapter mitarbeiterAdapter;
     private int id;
     private ListView lvPuntori;
     Button bt2Kategorie,btn2Produkt,btn2Statistik, btn2Tisch;
@@ -44,11 +46,11 @@ public class PersonalActivity extends AppCompatActivity {
         btnUpdatePuntorFragment = findViewById(R.id.btnUpdatePuntorFragment);
         btnDeletePuntorFragment = findViewById(R.id.btnDeletePuntorFragment);
         btnLoadPuntorFragment = findViewById(R.id.btnReloadPuntorFragment);
-        lvPuntori = (ListView) findViewById(R.id.lstPuntortFragment);
+        lvPuntori = findViewById(R.id.lstPuntortFragment);
         database = new database(this);
         etEmriPuntoriFragment = findViewById(R.id.etEmriPuntoriFragment);
         etPasswortPuntoriFragment =  findViewById(R.id.etPasswortPuntoriFragment);
-        btnExitPersonal = findViewById(R.id.btnExitPersonal);
+        Button btnExitPersonal = findViewById(R.id.btnExitPersonal);
 
         btn2Tisch = findViewById(R.id.btnTischPersonal);
         bt2Kategorie = findViewById(R.id.btnPersonal2Kategorie);
@@ -56,97 +58,67 @@ public class PersonalActivity extends AppCompatActivity {
         btn2Statistik = findViewById(R.id.btnPersonal2Statistik);
 
 
-        btn2Tisch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PersonalActivity.this, TischActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btn2Tisch.setOnClickListener(view -> {
+            Intent intent = new Intent(PersonalActivity.this, TischActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        bt2Kategorie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PersonalActivity.this, KategoryActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        bt2Kategorie.setOnClickListener(view -> {
+            Intent intent = new Intent(PersonalActivity.this, KategoryActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btn2Produkt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PersonalActivity.this, ProduktActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btn2Produkt.setOnClickListener(view -> {
+            Intent intent = new Intent(PersonalActivity.this, ProduktActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btn2Statistik.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PersonalActivity.this, StatistkActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btn2Statistik.setOnClickListener(view -> {
+            Intent intent = new Intent(PersonalActivity.this, StatistkActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
-        btnExitPersonal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PersonalActivity.this, LogInActivity.class);
-                finish();
-                startActivity(intent);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            }
+        btnExitPersonal.setOnClickListener(view -> {
+            Intent intent = new Intent(PersonalActivity.this, LogInActivity.class);
+            finish();
+            startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         });
 
         refreshList();
-        btnLoadPuntorFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickLoad();
+        btnLoadPuntorFragment.setOnClickListener(view -> {
+            clickLoad();
+            refreshList();
+            setNull();
+        });
+        lvPuntori.setOnItemClickListener((adapterView, view, i, l) -> {
+            id = lstMitarbeiterArray.get(i).getMitarbeiterID();
+            //Toast.makeText(getActivity(), "Test " +lstMitarbeiterArray.get(i).getMitarbeiterName(), Toast.LENGTH_SHORT).show();
+            etEmriPuntoriFragment.setText(lstMitarbeiterArray.get(i).getMitarbeiterName());
+            etPasswortPuntoriFragment.setText(lstMitarbeiterArray.get(i).getMitarbeiterPasswort());
+            clickList();
+        });
+        btnDeletePuntorFragment.setOnClickListener(view -> {
+            database.deleteMitarbeiter(id);
+            refreshList();
+            setNull();
+        });
+        btnUpdatePuntorFragment.setOnClickListener(view -> {
+            database.updateMitarbeiter(etEmriPuntoriFragment.getText().toString(), etPasswortPuntoriFragment.getText().toString(), id);
+            refreshList();
+            setNull();
+        });
+        btnAddPuntorFragment.setOnClickListener(view -> {
+            if (!etEmriPuntoriFragment.getText().toString().equals("") && !etPasswortPuntoriFragment.getText().toString().equals("")) {
+                database.insertMitarbeiter(etEmriPuntoriFragment.getText().toString(), etPasswortPuntoriFragment.getText().toString());
+                Toast.makeText(PersonalActivity.this, "e fute", Toast.LENGTH_SHORT).show();
                 refreshList();
-                setNull();
-            }
-        });
-        lvPuntori.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                id = lstMitarbeiterArray.get(i).getMitarbeiterID();
-                //Toast.makeText(getActivity(), "Test " +lstMitarbeiterArray.get(i).getMitarbeiterName(), Toast.LENGTH_SHORT).show();
-                etEmriPuntoriFragment.setText(lstMitarbeiterArray.get(i).getMitarbeiterName());
-                etPasswortPuntoriFragment.setText(lstMitarbeiterArray.get(i).getMitarbeiterPasswort());
-                clickList();
-            }
-        });
-        btnDeletePuntorFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                database.deleteMitarbeiter(id);
-                refreshList();
-                setNull();
-            }
-        });
-        btnUpdatePuntorFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                database.updateMitarbeiter(etEmriPuntoriFragment.getText().toString(), etPasswortPuntoriFragment.getText().toString(), id);
-                refreshList();
-                setNull();
-            }
-        });
-        btnAddPuntorFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!etEmriPuntoriFragment.getText().toString().equals("") && !etPasswortPuntoriFragment.getText().toString().equals("")) {
-                    database.insertMitarbeiter(etEmriPuntoriFragment.getText().toString(), etPasswortPuntoriFragment.getText().toString());
-                    Toast.makeText(PersonalActivity.this, "e fute", Toast.LENGTH_SHORT).show();
-                    refreshList();
-                } else {
-                    Toast.makeText(PersonalActivity.this, "Mos le that", Toast.LENGTH_SHORT).show();
-                }
+            } else {
+                Toast.makeText(PersonalActivity.this, "Mos le that", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -154,8 +126,8 @@ public class PersonalActivity extends AppCompatActivity {
     public void refreshList() {
         String qry = "select * from mitarbeiter";
         lstMitarbeiterArray = database.getMitarbeiter(qry);
-        mitarbeiterAdapter = new MitarbeiterAdapter(lstMitarbeiterArray, this);
-        lvPuntori.setAdapter((MitarbeiterAdapter) mitarbeiterAdapter);
+        MitarbeiterAdapter mitarbeiterAdapter = new MitarbeiterAdapter(lstMitarbeiterArray, this);
+        lvPuntori.setAdapter(mitarbeiterAdapter);
 
     }
 
