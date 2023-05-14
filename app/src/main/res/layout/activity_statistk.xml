@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminActivityKlassen.StatistkActivity">
+
+    <Button
+        android:id="@+id/btnExitStatistik"
+        android:layout_width="wrap_content"
+        android:layout_height="35sp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:text="Exit"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/btnStatistik2Produkt"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnStatistik2Kategorie"
+        android:layout_width="wrap_content"
+        android:layout_height="35sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:text="Kategorie"
+        app:layout_constraintEnd_toStartOf="@+id/btnStatistik2Produkt"
+        app:layout_constraintStart_toEndOf="@+id/btnStatistik2Personal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnStatistik2Personal"
+        android:layout_width="wrap_content"
+        android:layout_height="35sp"
+        android:layout_marginStart="233dp"
+        android:layout_marginTop="12dp"
+        android:text="Personal"
+        app:layout_constraintEnd_toStartOf="@+id/btnStatistik2Kategorie"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnStatistik2Produkt"
+        android:layout_width="wrap_content"
+        android:layout_height="35sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="232dp"
+        android:text="Produkt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnStatistik2Kategorie"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnStatistik2Kategorie">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:background="@color/white"
+            android:id="@+id/fragment_verticalbarchart_chart"
+            android:layout_width="402dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/calendarView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
