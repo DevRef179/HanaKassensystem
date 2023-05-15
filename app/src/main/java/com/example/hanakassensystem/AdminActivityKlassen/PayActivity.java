@@ -28,7 +28,7 @@ public class PayActivity extends AppCompatActivity {
     private double summPreis;
     private int anzahlProdukte;
 
-    // --Commented out by Inspection (14.05.2023 23:38):private int produktID;
+    private int produktID;
     private int tischID;
     private Integer mitarbeiterID = null;
     private database database;
@@ -53,31 +53,46 @@ public class PayActivity extends AppCompatActivity {
         ArrayList<Tisch> tischList = database.getTisch(qry);
         int tischNr = tischList.get(0).getTischNummer();
         txtPayTischID.setText(String.valueOf(tischNr));
-        refreshList();
 
+        refreshList();
         for (int i = 0; i< lstBestellung.size(); i++){
             preis = lstBestellung.get(i).getProduktPreis();
             anzahlProdukte = lstBestellung.get(i).getAnzahlProdukt();
             double summ = preis * anzahlProdukte;
             summPreis += summ;
         }
-
         txtSumTotal.setText(String.valueOf(summPreis));
 
 
+        fabPay.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    return false;
+                }
+            });
 
         fabPay.setOnClickListener(view -> {
             database.updateTischTisch(0,tischID);
-
             Intent intent1 = new Intent(PayActivity.this, MainActivity.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent1.putExtra("mitarbeiterID", mitarbeiterID);
             startActivity(intent1);
             arraList2SQL();
             database.deleteBestellung(tischID);
+
         });
 
-
+        fabPay.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent1 = new Intent(PayActivity.this, MainActivity.class);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent1.putExtra("mitarbeiterID", mitarbeiterID);
+                startActivity(intent1);
+                return true;
+            }
+        });
 
     }
     public void refreshList() {

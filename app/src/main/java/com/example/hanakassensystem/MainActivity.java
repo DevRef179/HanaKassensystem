@@ -92,46 +92,22 @@ public class MainActivity extends AppCompatActivity {
             intent12.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent12.putExtra("tisch", tischID);
             intent12.putExtra("mitarbeiterID", mitarbeiterID);
-
             startActivity(intent12);
-
             Toast.makeText(MainActivity.this, "Tisch " + tischID, Toast.LENGTH_SHORT).show();
         });
         lvTavolinat.setOnItemLongClickListener((adapterView, view, i, l) -> {
             tischID = tischListArray.get(i).getTischID();
-
             Intent intent1 = new Intent(MainActivity.this, PayActivity.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent1.putExtra("tisch", tischID);
             intent1.putExtra("mitarbeiterID", mitarbeiterID);
             startActivity(intent1);
-
-
             return false;
         });
-
-
-        /*
-
-         con = findViewById(R.id.conTavolin);
-
-         con.setBackgroundColor(Color.CYAN);
-         for (int i = 0; i<15; i++){
-             int price = new Random().nextInt(100);
-             //database.insertAbhandlung(String.valueOf(price));
-         }
-
-         listView.setAdapter(new ArrayAdapter<>(this,
-                 android.R.layout.simple_list_item_1,database.getAbhandlung()));
-
-         tvOutput.setText(String.format("Total Entry:  %s",database.getCount()3
-         ));
-
-          */
     }
 
     public void refreshTischLst() {
-        String qry = "select * from Tisch";
+        String qry = "Select * from tisch order by boolTischBesetztAsInt DESC";
         tischListArray = database.getTisch(qry);
         TischAdapter tischAdapter = new TischAdapter(tischListArray, this);
         lvTavolinat.setAdapter(tischAdapter);

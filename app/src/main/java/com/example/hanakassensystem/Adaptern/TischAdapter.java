@@ -27,6 +27,7 @@ private ConstraintLayout con;
 
     private database database;
     private int bool;
+    ArrayList<Tisch>tisches;
 
     public TischAdapter(ArrayList<Tisch> lstTische, Context context) {
         this.lstTische = lstTische;
@@ -40,27 +41,32 @@ private ConstraintLayout con;
 
     @Override
     public Object getItem(int i) {
-        bool = lstTische2.get(i).getBoolTischBesetztAsInt();
         return lstTische.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return lstTische.get(i).getTischID();
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-
+        sql(i);
         ViewHolder holder;
 
         if (view == null) {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.tavolincard, null, true);
 
+
+            int tischBesetzt = tisches.get(i).getBoolTischBesetztAsInt();
+            if (tischBesetzt == 0){
+                view = inflater.inflate(R.layout.tavolincard2, null, true);
+            }else {
+                view = inflater.inflate(R.layout.tavolincard, null, true);
+            }
             holder.txtTavolinNr = view.findViewById(R.id.txtTavolinaNr);
             holder.con = view.findViewById(R.id.conTavolin);
             view.setTag(holder);
@@ -69,9 +75,6 @@ private ConstraintLayout con;
             holder = (ViewHolder) view.getTag();
         }
         holder.txtTavolinNr.setText(String.valueOf(lstTische.get(i).getTischNummer()));
-        if (bool == 1) {
-          holder.con.setBackgroundColor(Color.parseColor("#5169FF"));
-        }
         return view;
     }
 
@@ -79,6 +82,11 @@ private ConstraintLayout con;
         protected ConstraintLayout con;
         protected TextView
                 txtTavolinNr;
+    }
+    private void sql(int i){
+        getItemId(i);
+        database = new database(context.getApplicationContext());
+        tisches = database.getTisch("Select * from tisch order by boolTischBesetztAsInt DESC");
     }
 }
 

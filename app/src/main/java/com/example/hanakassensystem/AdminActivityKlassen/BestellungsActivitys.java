@@ -37,18 +37,18 @@ public class BestellungsActivitys extends AppCompatActivity {
 
     ArrayAdapter<String> adapter1;
 
-// --Commented out by Inspection START (14.05.2023 23:37):
-     private String produktName;
-//
+    // --Commented out by Inspection START (14.05.2023 23:37):
+    private String produktName;
+    //
 //
     private int b_produktID;
-// --Commented out by Inspection STOP (14.05.2023 23:37)
+    // --Commented out by Inspection STOP (14.05.2023 23:37)
     private String produktname;
     private double b_produktPreis;
 
-// --Commented out by Inspection START (14.05.2023 23:37):
-    private    Dialog dialog;
-// --Commented out by Inspection STOP (14.05.2023 23:37)
+    // --Commented out by Inspection START (14.05.2023 23:37):
+    private Dialog dialog;
+    // --Commented out by Inspection STOP (14.05.2023 23:37)
     Integer tischNr = null;
     int lvID;
     private database database;
@@ -110,8 +110,8 @@ public class BestellungsActivitys extends AppCompatActivity {
                     tischID = 0;
                 } else {
                     Toast.makeText(BestellungsActivitys.this, "Save !!" + prodID, Toast.LENGTH_SHORT).show();
-                    database.insertBestellung(b_produktID,tischID,produktName,b_produktPreis,produktAnzahl,mitarbeiterID);
-                    database.updateTischTisch(1,tischID);
+                    database.insertBestellung(b_produktID, tischID, produktName, b_produktPreis, produktAnzahl, mitarbeiterID);
+                    database.updateTischTisch(1, tischID);
                     produktAnzahl = 1;
                     etProduktAnzahl.setText(String.valueOf(1));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
