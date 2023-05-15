@@ -41,7 +41,7 @@ public class StatistkActivity extends AppCompatActivity {
         BarChart barChart = findViewById(R.id.fragment_verticalbarchart_chart);
         database = new database(this);
         sumTotalBarARray = database.getSum("Select * from sumtotal");
-        getData();
+        //getData();
 
         BarDataSet barDataSet = new BarDataSet(barArrayLst,"Verkäufe");
         barDataSet.setLabel("Euro");
